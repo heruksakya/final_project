@@ -1,6 +1,7 @@
 import tkinter
 from tkinter import ttk
 from tkinter import messagebox
+from estd_connection import estd_connection
 
 
 def submit_data():
@@ -15,13 +16,22 @@ def submit_data():
         num_courses = num_courses_spinbox.get()
         num_semesters = num_semesters_spinbox.get()
         registration_status = reg_status_var.get()
-        print(first_name)
+        cursor = estd_connection()
+        sql = f"""
+                INSERT INTO USER_INFORMATION (FIRST_NAME, LAST_NAME, TITLE, AGE, NATIONALITY, NUM_COURSES,
+                NUM_SEMESTER, REGISTRATION_STATUS) VALUES ('{first_name}', '{last_name}', '{title}', '{age}',
+                '{nationality}', '{num_courses}', '{num_semesters}', '{registration_status}')
+            """
+
+        cursor.execute(sql)
+        print("User information added successfully!")
+
     else:
         tkinter.messagebox.showwarning(title="Error", message="You have not accepted the terms and conditions")
 
 
 window = tkinter.Tk()
-window.title("Dta Entry Form")
+window.title("Data Entry Form")
 
 frame = tkinter.Frame(window)
 frame.pack()
